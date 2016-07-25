@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#sv start socklog-unix || exit 1
+
+source /etc/envvars
+env
+
+chown -R mysql:mysql /var/lib/mysql
+if [ ! -f /var/lib/mysql/ibdata1 ]; then
+   mysqld --initialize
+fi
+
+exec 2>&1
+exec /usr/bin/mysqld_safe --skip-syslog
